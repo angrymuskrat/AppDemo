@@ -1,6 +1,7 @@
 package com.angrymuscrat.ya.geoloc;
 
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.angrymuscrat.ya.geoloc.model.GameException;
+import com.angrymuscrat.ya.geoloc.model.GameMode;
 import com.angrymuscrat.ya.geoloc.model.Round;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,11 +26,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-//TODO сделать активити со стартовым меню
-
-//TODO дизайн!!
-
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback, View.OnClickListener{
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+        OnStreetViewPanoramaReadyCallback, View.OnClickListener{
 
     private final String TAG = "MapsActivity";
     private GoogleMap mMap;
@@ -39,6 +38,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button swift, nextRound;
     private Round newRound;
     private TextView myText;
+    private int numberOfRound = 1;
 
     @Override
     public void onClick(View view) {
@@ -52,12 +52,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (isRoundNow) {
                     try {
                         int res = newRound.checkUserAnswer();
-                        myText.setText("your fine is " + Integer.toString(res) + " km");
+                        String mes = "your fine is " + Integer.toString(res) + " m";
                         mMap.addPolyline(new PolylineOptions()
                                 .add(newRound.getUserAns(), newRound.getUserLocation())
                                 .color(Color.BLACK));
                         nextRound.setText("следующий раунд");
                         isRoundNow = false;
+                        if (numberOfRound == GameMode.amounthOfRounds) {
+                            nextRound.setText("menu");
+                            mes += "; all fine is " + Integer.toString(GameMode.score) + " m";
+                        }
+                        myText.setText(mes);
                     }
                     catch (GameException e) {
                         Toast errorMes = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
@@ -65,9 +70,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 }
                 else {
+                    if (numberOfRound == GameMode.amounthOfRounds) {
+                        Toast res = Toast.makeText(this, "Your all fine is "
+                                + Integer.toString(GameMode.score) + " m", Toast.LENGTH_SHORT);
+                        res.show();
+                        Intent intent = new Intent(this, MenuActivity.class);
+                        startActivity(intent);
+                    }
+                    numberOfRound++;
                     mMap.clear();
                     nextRound.setText("проверить ответ");
-                    myText.setText("Round 1");
+                    myText.setText("Round " + Integer.toString(numberOfRound));
                     newRound.clearLocation();
                     setNewLocation();
                     isRoundNow = true;
@@ -86,6 +99,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         newRound = new Round();
         myText = (TextView) findViewById(R.id.textmapsactivity);
+        myText.setText("Round " + Integer.toString(numberOfRound));
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         streetFragment = (StreetViewPanoramaFragment) getFragmentManager()
                 .findFragmentById(R.id.streetview);
@@ -122,8 +136,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void setNewLocation() {
-        int r = 20_000_000;
-        LatLng point = newRound.randLocation();
+        int r = GameMode.gerRadius();
+        LatLng point = GameMode.getPosition();
         Log.d(TAG, Double.toString(point.latitude) + " " + Double.toString(point.longitude));
         streetView.setPosition(point, r);
         //TODO почему-то getLocation возвращает null, это плохо

@@ -26,7 +26,8 @@ public class Round {
                 float res[] = new float[3];
                 Location.distanceBetween(userAns.latitude, userAns.longitude
                         , userLocation.latitude, userLocation.longitude, res);
-                return (int) (res[0]) / 1000;
+                GameMode.score += (int) res[0];
+                return (int) (res[0]);
             }
             catch (IllegalArgumentException e) {
                 return 0;
@@ -40,14 +41,6 @@ public class Round {
     public void clearLocation() {
         userAns = null;
         userLocation = null;
-    }
-
-    static public LatLng randLocation() {
-        //TODO тут бы сделать более интелектуальный рандом
-        Random rand = new Random(System.currentTimeMillis());
-        double lat = ((rand.nextDouble() - 0.5) * 100);
-        double lng = ((rand.nextDouble() - 0.5) * 100);
-        return new LatLng(lat, lng);
     }
 
     public void setUserAns(LatLng point) {
