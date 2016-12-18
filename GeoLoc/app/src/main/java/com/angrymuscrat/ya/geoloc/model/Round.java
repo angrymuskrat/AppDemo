@@ -4,8 +4,6 @@ import android.location.Location;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.Random;
-
 /**
  * Created by YA on 18.12.2016.
  */

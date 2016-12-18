@@ -5,17 +5,12 @@ package com.angrymuscrat.ya.geoloc;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.angrymuscrat.ya.geoloc.model.GameException;
 import com.angrymuscrat.ya.geoloc.model.GameMode;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener{
     private Button generalMode;

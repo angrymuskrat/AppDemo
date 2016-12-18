@@ -51,11 +51,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             case R.id.checkanswer : {
                 if (isRoundNow) {
                     try {
+                        newRound.setUserLocation(streetView.getLocation().position);
                         int res = newRound.checkUserAnswer();
                         String mes = "your fine is " + Integer.toString(res) + " m";
                         mMap.addPolyline(new PolylineOptions()
                                 .add(newRound.getUserAns(), newRound.getUserLocation())
-                                .color(Color.BLACK));
+                                .color(Color.RED));
                         nextRound.setText("следующий раунд");
                         isRoundNow = false;
                         if (numberOfRound == GameMode.amounthOfRounds) {
@@ -71,9 +72,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 else {
                     if (numberOfRound == GameMode.amounthOfRounds) {
-                        Toast res = Toast.makeText(this, "Your all fine is "
-                                + Integer.toString(GameMode.score) + " m", Toast.LENGTH_SHORT);
-                        res.show();
                         Intent intent = new Intent(this, MenuActivity.class);
                         startActivity(intent);
                     }
@@ -140,13 +138,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng point = GameMode.getPosition();
         Log.d(TAG, Double.toString(point.latitude) + " " + Double.toString(point.longitude));
         streetView.setPosition(point, r);
-        //TODO почему-то getLocation возвращает null, это плохо
-        if (streetView.getLocation() != null)
-            newRound.setUserLocation(streetView.getLocation().position);
-        else {
-            newRound.setUserLocation(point);
-            Log.d(TAG, "isn't correct location");
-        }
     }
 
     private void visibleOfStreetView(boolean isTrue) {
