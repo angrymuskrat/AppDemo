@@ -1,5 +1,5 @@
 package com.angrymuscrat.ya.geoloc;
-
+//a
 import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Color;
