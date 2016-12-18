@@ -1,11 +1,10 @@
 package com.angrymuscrat.ya.geoloc;
 
-import android.app.Activity;
-import android.app.Fragment;
+
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,15 +20,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
 import com.google.android.gms.maps.StreetViewPanorama;
 import com.google.android.gms.maps.StreetViewPanoramaFragment;
-import com.google.android.gms.maps.StreetViewPanoramaView;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.SupportStreetViewPanoramaFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.maps.model.RuntimeRemoteException;
-
-import java.util.Random;
 
 //TODO сделать активити со стартовым меню
 
@@ -90,8 +83,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
-        //TODO: добавить сохранение данных при повороте
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         newRound = new Round();
         myText = (TextView) findViewById(R.id.textmapsactivity);
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);

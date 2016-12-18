@@ -9,20 +9,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textmapsactivity"
-        android:text="Round 1"/>
+        android:text="Round"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/changefragment"
-        android:text="Выберать координату"
+        android:text="Choose location"
         />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/checkanswer"
-        android:text="Ответ готов"
+        android:text="Ready to answer"
         />
 
     <fragment
