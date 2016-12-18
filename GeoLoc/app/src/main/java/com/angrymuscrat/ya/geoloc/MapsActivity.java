@@ -30,7 +30,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.RuntimeRemoteException;
 
 import java.util.Random;
-
+//b
 //TODO сделать активити со стартовым меню
 
 //TODO дизайн!!
