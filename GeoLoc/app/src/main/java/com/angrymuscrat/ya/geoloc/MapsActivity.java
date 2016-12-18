@@ -42,7 +42,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button swift, nextRound;
     private Round newRound;
     private TextView myText;
-    private Toast errorMes;
 
     @Override
     public void onClick(View view) {
@@ -64,13 +63,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         isRoundNow = false;
                     }
                     catch (GameException e) {
-                        errorMes.setText(e.getMessage());
+                        Toast errorMes = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
                         errorMes.show();
                     }
                 }
                 else {
                     mMap.clear();
                     nextRound.setText("проверить ответ");
+                    myText.setText("Round 1");
                     newRound.clearLocation();
                     setNewLocation();
                     isRoundNow = true;
@@ -88,7 +88,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         newRound = new Round();
-        errorMes = new Toast(this);
         myText = (TextView) findViewById(R.id.textmapsactivity);
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         streetFragment = (StreetViewPanoramaFragment) getFragmentManager()
@@ -130,7 +129,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng point = newRound.randLocation();
         Log.d(TAG, Double.toString(point.latitude) + " " + Double.toString(point.longitude));
         streetView.setPosition(point, r);
-        newRound.setUserLocation(point);
         if (streetView.getLocation() != null)
             newRound.setUserLocation(streetView.getLocation().position);
         else {
