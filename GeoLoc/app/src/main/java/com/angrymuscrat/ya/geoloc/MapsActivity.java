@@ -31,6 +31,10 @@ import com.google.android.gms.maps.model.RuntimeRemoteException;
 
 import java.util.Random;
 
+//TODO сделать активити со стартовым меню
+
+//TODO дизайн!!
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback, View.OnClickListener{
 
     private final String TAG = "MapsActivity";
@@ -86,7 +90,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
+        //TODO: добавить сохранение данных при повороте
         newRound = new Round();
         myText = (TextView) findViewById(R.id.textmapsactivity);
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
@@ -129,6 +134,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng point = newRound.randLocation();
         Log.d(TAG, Double.toString(point.latitude) + " " + Double.toString(point.longitude));
         streetView.setPosition(point, r);
+        //TODO почему-то getLocation возвращает null, это плохо
         if (streetView.getLocation() != null)
             newRound.setUserLocation(streetView.getLocation().position);
         else {

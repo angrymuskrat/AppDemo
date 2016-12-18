@@ -43,6 +43,7 @@ public class Round {
     }
 
     static public LatLng randLocation() {
+        //TODO тут бы сделать более интелектуальный рандом
         Random rand = new Random(System.currentTimeMillis());
         double lat = ((rand.nextDouble() - 0.5) * 100);
         double lng = ((rand.nextDouble() - 0.5) * 100);
