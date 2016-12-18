@@ -2,13 +2,18 @@ package com.angrymuscrat.ya.geoloc;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.angrymuscrat.ya.geoloc.model.GameException;
+import com.angrymuscrat.ya.geoloc.model.Round;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -21,7 +26,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.SupportStreetViewPanoramaFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.RuntimeRemoteException;
+
+import java.util.Random;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback, View.OnClickListener{
 
@@ -30,23 +38,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private StreetViewPanorama streetView;
     private MapFragment mapFragment;
     private StreetViewPanoramaFragment streetFragment;
-    private boolean isMapVisible = true;
-    private Button swift;
+    private boolean isMapVisible = true, isRoundNow = true;
+    private Button swift, nextRound;
+    private Round newRound;
+    private TextView myText;
+    private Toast errorMes;
 
     @Override
     public void onClick(View view) {
         Log.d(TAG, "click");
         switch (view.getId()) {
             case R.id.changefragment : {
-                if (isMapVisible) {
-                    isMapVisible = false;
-                    mapFragment.getView().setVisibility(View.GONE);
-                    streetFragment.getView().setVisibility(View.VISIBLE);
-                } else {
-                    isMapVisible = true;
-                    mapFragment.getView().setVisibility(View.VISIBLE);
-                    streetFragment.getView().setVisibility(View.GONE);
+                    visibleOfStreetView(isMapVisible);
+                break;
+            }
+            case R.id.checkanswer : {
+                if (isRoundNow) {
+                    try {
+                        int res = newRound.checkUserAnswer();
+                        myText.setText("your fine is " + Integer.toString(res) + " km");
+                        mMap.addPolyline(new PolylineOptions()
+                                .add(newRound.getUserAns(), newRound.getUserLocation())
+                                .color(Color.BLACK));
+                        nextRound.setText("следующий раунд");
+                        isRoundNow = false;
+                    }
+                    catch (GameException e) {
+                        errorMes.setText(e.getMessage());
+                        errorMes.show();
+                    }
                 }
+                else {
+                    mMap.clear();
+                    nextRound.setText("проверить ответ");
+                    newRound.clearLocation();
+                    setNewLocation();
+                    isRoundNow = true;
+                }
+                visibleOfStreetView(isRoundNow);
                 break;
             }
             default: break;
@@ -58,41 +87,64 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        newRound = new Round();
+        errorMes = new Toast(this);
+        myText = (TextView) findViewById(R.id.textmapsactivity);
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         streetFragment = (StreetViewPanoramaFragment) getFragmentManager()
                 .findFragmentById(R.id.streetview);
         mapFragment.getMapAsync(this);
         streetFragment.getStreetViewPanoramaAsync(this);
         swift = (Button) findViewById(R.id.changefragment);
+        nextRound = (Button) findViewById(R.id.checkanswer);
+        nextRound.setOnClickListener(this);
         swift.setOnClickListener(this);
+        visibleOfStreetView(true);
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                if (isRoundNow) {
+                    mMap.clear();
+                    newRound.setUserAns(latLng);
+                    mMap.addMarker(new MarkerOptions().title("answer").position(latLng));
+                }
+            }
+        });
+        LatLng startPoint = new LatLng(-34, 151);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(startPoint));
     }
 
     @Override
     public void onStreetViewPanoramaReady(StreetViewPanorama streetViewPanorama) {
         streetView = streetViewPanorama;
-        LatLng SAN_FRAN = new LatLng(37.765927, -122.449972);
-
-        streetView.setPosition(SAN_FRAN);
+        setNewLocation();
     }
 
+    private void setNewLocation() {
+        int r = 20_000_000;
+        LatLng point = newRound.randLocation();
+        Log.d(TAG, Double.toString(point.latitude) + " " + Double.toString(point.longitude));
+        streetView.setPosition(point, r);
+        newRound.setUserLocation(point);
+        if (streetView.getLocation() != null)
+            newRound.setUserLocation(streetView.getLocation().position);
+        else {
+            newRound.setUserLocation(point);
+            Log.d(TAG, "isn't correct location");
+        }
+    }
+
+    private void visibleOfStreetView(boolean isTrue) {
+        int tmp;
+        tmp = isTrue ? View.VISIBLE :  View.GONE;
+        streetFragment.getView().setVisibility(tmp);
+        tmp = isTrue ? View.GONE :  View.VISIBLE;
+        mapFragment.getView().setVisibility(tmp);
+        isMapVisible = !isTrue;
+    }
 }
