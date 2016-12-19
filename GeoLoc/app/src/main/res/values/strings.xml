@@ -1,10 +1,9 @@
 <resources>
     <string name="app_name">GeoLoc</string>
     <string name="title_activity_maps">Map</string>
-    <string name="start_game">start game</string>
+    <string name="start_game">Start game</string>
     <string name="select_the_number_of_rounds">Select the number of rounds from 1 to 10</string>
     <string name="round">Round</string>
-    <string name="choose_location">Choose location</string>
     <string name="ready_to_answer">Ready to answer</string>
     <string name="general_game">General game</string>
     <string name="local_game">Local game</string>
@@ -13,4 +12,5 @@
     <string name="tosettings">toSettings</string>
     <string name="select_latitude">Select latitude</string>
     <string name="select_longedit">Select longedit</string>
+    <string name="switch1">Switch</string>
 </resources>

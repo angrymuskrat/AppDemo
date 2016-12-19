@@ -6,17 +6,17 @@
 
     <LinearLayout style = "@style/LinearParent"
         android:layout_weight="4">
-        <TextView style = "@style/Text"
+        <TextView style = "@style/TextView"
             android:text="@string/select_the_number_of_rounds"
             />
     </LinearLayout>
 
     <LinearLayout style = "@style/LinearParent"
         android:layout_weight="4">
-        <EditText style = "@style/Text"
+        <EditText style = "@style/EditText"
             android:id="@+id/generaledittext"
-            android:layout_width="match_parent"
             android:inputType="numberDecimal"
+            android:layout_width="match_parent"
             />
     </LinearLayout>
 

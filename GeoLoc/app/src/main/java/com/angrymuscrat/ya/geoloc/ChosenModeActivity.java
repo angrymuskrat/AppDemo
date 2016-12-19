@@ -51,7 +51,7 @@ public class ChosenModeActivity extends Activity {
                     Intent intent = new Intent(ChosenModeActivity.this, MapsActivity.class);
                     startActivity(intent);
                 } catch (Exception e) {
-                    Toast errorMes = Toast.makeText(ChosenModeActivity.this, "Введите корректное значение!", Toast.LENGTH_LONG);
+                    Toast errorMes = Toast.makeText(ChosenModeActivity.this, "Enter the correct value", Toast.LENGTH_LONG);
                     errorMes.show();
                 }
             }
@@ -62,14 +62,13 @@ public class ChosenModeActivity extends Activity {
     }
     private class ChosenGenerator implements GameGenInterface {
         @Override
-        public LatLng genPosition() {
+        public LatLng getPosition() {
             Random rand = new Random(System.currentTimeMillis());
-            double latTmp = ((rand.nextDouble() - 0.5) * 2.5 + ChosenModeActivity.lat);
-            double lngTmp = ((rand.nextDouble() - 0.5) * 5 + ChosenModeActivity.lng);
-
+            double latTmp = ((rand.nextDouble() - 0.5) * 2 + ChosenModeActivity.lat);
+            double lngTmp = ((rand.nextDouble() - 0.5) * 4 + ChosenModeActivity.lng);
             return new LatLng(latTmp, lngTmp);
         }
-        public Integer genRadius(){
+        public Integer getRadius(){
             return 200_000;//Спб : 44км * 25 км мб радиус надо выбрать
         }
     }

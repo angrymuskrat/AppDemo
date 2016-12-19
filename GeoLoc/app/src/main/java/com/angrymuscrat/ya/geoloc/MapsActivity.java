@@ -53,15 +53,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     try {
                         newRound.setUserLocation(streetView.getLocation().position);
                         int res = newRound.checkUserAnswer();
-                        String mes = "your fine is " + Integer.toString(res) + " m";
+                        String mes = "your score is " + Integer.toString(res) + " m";
                         mMap.addPolyline(new PolylineOptions()
                                 .add(newRound.getUserAns(), newRound.getUserLocation())
                                 .color(Color.RED));
-                        nextRound.setText("следующий раунд");
+                        nextRound.setText("Next round");
                         isRoundNow = false;
                         if (numberOfRound == GameMode.amounthOfRounds) {
-                            nextRound.setText("menu");
-                            mes += "; all fine is " + Integer.toString(GameMode.score) + " m";
+                            nextRound.setText("Menu");
+                            mes += "; all score is " + Integer.toString(GameMode.score)
+                                    + " m" + " from "
+                                    + Integer.toString(Round.MAX_POINT * numberOfRound);
                         }
                         myText.setText(mes);
                     }
@@ -77,7 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                     numberOfRound++;
                     mMap.clear();
-                    nextRound.setText("проверить ответ");
+                    nextRound.setText("Check answer");
                     myText.setText("Round " + Integer.toString(numberOfRound));
                     newRound.clearLocation();
                     setNewLocation();
@@ -134,7 +136,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void setNewLocation() {
-        int r = GameMode.gerRadius();
+        int r = GameMode.getRadius();
         LatLng point = GameMode.getPosition();
         Log.d(TAG, Double.toString(point.latitude) + " " + Double.toString(point.longitude));
         streetView.setPosition(point, r);

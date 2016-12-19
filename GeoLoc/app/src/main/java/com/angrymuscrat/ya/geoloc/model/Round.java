@@ -10,6 +10,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class Round {
     private LatLng userLocation = null, userAns = null;
+    public static final int MAX_POINT = 1000;
 
     public Round() {
         userLocation = null;
@@ -24,11 +25,16 @@ public class Round {
                 float res[] = new float[3];
                 Location.distanceBetween(userAns.latitude, userAns.longitude
                         , userLocation.latitude, userLocation.longitude, res);
-                GameMode.score += (int) res[0];
-                return (int) (res[0]);
+                Integer tmp = GameMode.getRadius();
+                if (tmp == null)
+                    tmp = new Integer(0);
+                else
+                    tmp = new Integer(Math.max(MAX_POINT - (int)(((long) (res[0])) * MAX_POINT / GameMode.getRadius()), 1));
+                GameMode.score += tmp.intValue();
+                return tmp.intValue();
             }
             catch (IllegalArgumentException e) {
-                return 0;
+                return MAX_POINT;
             }
         }
         else {

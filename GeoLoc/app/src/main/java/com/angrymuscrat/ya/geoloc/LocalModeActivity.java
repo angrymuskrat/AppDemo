@@ -77,7 +77,7 @@ public class LocalModeActivity extends Activity {
             public void onClick(View view) {
                 try {
                     if(!showLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER))){
-                        Toast.makeText(LocalModeActivity.this, " нет данных о месторасположении",Toast.LENGTH_LONG);
+                        Toast.makeText(LocalModeActivity.this, "No data on the location",Toast.LENGTH_LONG);
                         return;
                     }
                     GameMode.amounthOfRounds = (new Integer(myEditText.getText().toString())).intValue();
@@ -87,10 +87,10 @@ public class LocalModeActivity extends Activity {
                     startActivity(intent);
                 }
                 catch (SecurityException e){
-                    Toast.makeText(LocalModeActivity.this," нет разрешения на обработку данных",Toast.LENGTH_LONG).show();
+                    Toast.makeText(LocalModeActivity.this,"No authorization for the processing of data",Toast.LENGTH_LONG).show();
                 }
                 catch (Exception e) {
-                    Toast errorMes = Toast.makeText(LocalModeActivity.this, "Введите корректное значение!", Toast.LENGTH_LONG);
+                    Toast errorMes = Toast.makeText(LocalModeActivity.this, "Enter the correct value!", Toast.LENGTH_LONG);
                     errorMes.show();
                 }
             }
@@ -113,7 +113,7 @@ public class LocalModeActivity extends Activity {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                     0, 10, locationListener);
         }catch (SecurityException e){
-            Toast.makeText(LocalModeActivity.this," нет разрешения на обработку данных",Toast.LENGTH_LONG).show();
+            Toast.makeText(LocalModeActivity.this,"No authorization for the processing of data",Toast.LENGTH_LONG).show();
         }
         checkEnabled();
     }
@@ -122,7 +122,7 @@ public class LocalModeActivity extends Activity {
         try {
             locationManager.removeUpdates(locationListener);
         } catch (SecurityException e){
-            Toast.makeText(LocalModeActivity.this," нет разрешения на обработку данных",Toast.LENGTH_LONG).show();
+            Toast.makeText(LocalModeActivity.this,"No authorization for the processing of data",Toast.LENGTH_LONG).show();
         }
     }
     private boolean showLocation(Location location){
@@ -145,11 +145,14 @@ public class LocalModeActivity extends Activity {
 
     private class LocalGenerator implements GameGenInterface {
         @Override
-        public LatLng genPosition() {
-            return new LatLng(lat, lng);
+        public LatLng getPosition() {
+            Random rand = new Random(System.currentTimeMillis());
+            double latTmp = ((rand.nextDouble() - 0.5) / 2 + lat);
+            double lngTmp = ((rand.nextDouble() - 0.5) + lng);
+            return new LatLng(latTmp, lngTmp);
         }
-        public Integer genRadius(){
-            return 20_000;
+        public Integer getRadius(){
+            return 60_000;
         }
     }
 }

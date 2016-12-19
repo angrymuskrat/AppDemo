@@ -6,6 +6,6 @@ import com.google.android.gms.maps.model.LatLng;
  */
 
 public interface GameGenInterface {
-    public LatLng genPosition();
-    public Integer genRadius();
+    public LatLng getPosition();
+    public Integer getRadius();
 }

@@ -1,5 +1,4 @@
 package com.angrymuscrat.ya.geoloc;
-//TODO дизайн + все надписи в приложении одним языком, а не как я сделал
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;

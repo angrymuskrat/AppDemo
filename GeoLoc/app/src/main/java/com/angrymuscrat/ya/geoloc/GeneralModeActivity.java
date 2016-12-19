@@ -37,7 +37,7 @@ public class GeneralModeActivity extends Activity {
                     startActivity(intent);
                 }
                 catch (Exception e) {
-                    Toast errorMes = Toast.makeText(GeneralModeActivity.this, "Введите корректное значение!", Toast.LENGTH_LONG);
+                    Toast errorMes = Toast.makeText(GeneralModeActivity.this, "Enter the correct value!", Toast.LENGTH_LONG);
                     errorMes.show();
                 }
             }
@@ -45,15 +45,15 @@ public class GeneralModeActivity extends Activity {
     }
     private class GeneralGenerator implements GameGenInterface{
         @Override
-        public LatLng genPosition() {
+        public LatLng getPosition() {
             //TODO нужен более интелектуальный рандом!
             Random rand = new Random(System.currentTimeMillis());
             double lat = ((rand.nextDouble() - 0.5) * 100);
             double lng = ((rand.nextDouble() - 0.5) * 100);
             return new LatLng(lat, lng);
         }
-        public Integer genRadius(){
-            return 20_000_000;
+        public Integer getRadius(){
+            return 12_000_000;
         }
     }
 }

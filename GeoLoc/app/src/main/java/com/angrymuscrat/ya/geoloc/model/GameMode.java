@@ -18,19 +18,18 @@ public class GameMode {
         if (generator==null)
             return null;
         else
-            return generator.genPosition();
+            return generator.getPosition();
     }
 
-    static public Integer gerRadius() {
+    static public Integer getRadius() {
         if (generator==null)
             return null;
         else
-            return generator.genRadius();
+            return generator.getRadius();
     }
 
     static public void clear() {
         generator=null;
-        //gameMode = 0;
         amounthOfRounds = 0;
         score = 0;
     }
