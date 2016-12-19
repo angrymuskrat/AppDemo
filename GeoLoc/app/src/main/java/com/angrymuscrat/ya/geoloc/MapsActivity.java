@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.angrymuscrat.ya.geoloc.model.GameException;
 import com.angrymuscrat.ya.geoloc.model.GameMode;
+import com.angrymuscrat.ya.geoloc.model.PlaceException;
 import com.angrymuscrat.ya.geoloc.model.Round;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -59,6 +60,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             case R.id.checkanswer : {
                 if (isRoundNow) {
                     try {
+                        if (streetView.getLocation() == null)
+                            throw new PlaceException();
                         newRound.setUserLocation(streetView.getLocation().position);
                         int res = newRound.checkUserAnswer();
                         String mes = "your score is " + Integer.toString(res) + " m";
@@ -77,6 +80,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     catch (GameException e) {
                         Toast errorMes = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
                         errorMes.show();
+                    }
+                    catch (PlaceException e) {
+                        fin("Near this location there aren't panoramas");
                     }
                 }
                 else {

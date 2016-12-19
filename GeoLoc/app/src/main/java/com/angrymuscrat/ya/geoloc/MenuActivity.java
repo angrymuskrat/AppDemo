@@ -36,7 +36,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
-    //TODO реализовать interesting mod или удалить кнопочку
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

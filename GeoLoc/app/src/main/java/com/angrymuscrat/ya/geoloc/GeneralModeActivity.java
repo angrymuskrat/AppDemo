@@ -47,7 +47,6 @@ public class GeneralModeActivity extends Activity {
     private class GeneralGenerator implements GameGenInterface{
         @Override
         public LatLng getPosition() {
-            //TODO нужен более интелектуальный рандом!
             Random rand = new Random(System.currentTimeMillis());
             int tmp = RegionForRand.regions.length;
             tmp = (rand.nextInt() % tmp + tmp) % tmp;
