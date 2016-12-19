@@ -8,8 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import java.util.Random;
 
+import com.angrymuscrat.ya.geoloc.model.GameGenInterface;
 import com.angrymuscrat.ya.geoloc.model.GameMode;
+import com.google.android.gms.maps.model.LatLng;
 
 public class GeneralModeActivity extends Activity {
     EditText myEditText;
@@ -17,6 +20,7 @@ public class GeneralModeActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        GameMode.generator=new GeneralGenerator();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_general_mode);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -38,5 +42,18 @@ public class GeneralModeActivity extends Activity {
                 }
             }
         });
+    }
+    private class GeneralGenerator implements GameGenInterface{
+        @Override
+        public LatLng genPosition() {
+            //TODO нужен более интелектуальный рандом!
+            Random rand = new Random(System.currentTimeMillis());
+            double lat = ((rand.nextDouble() - 0.5) * 100);
+            double lng = ((rand.nextDouble() - 0.5) * 100);
+            return new LatLng(lat, lng);
+        }
+        public Integer genRadius(){
+            return 20_000_000;
+        }
     }
 }

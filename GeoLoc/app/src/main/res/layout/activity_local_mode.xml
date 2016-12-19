@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout style = "@style/LinearParent"
+        android:layout_weight="2">
+        <TextView style = "@style/Text"
+            android:text="@string/select_the_number_of_rounds"
+            />
+    </LinearLayout>
+
+    <LinearLayout style = "@style/LinearParent"
+        android:layout_weight="2">
+        <EditText
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:id="@+id/localedittext"
+            android:inputType="numberDecimal"
+            android:padding="20dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout style = "@style/LinearParent"
+        android:layout_weight="2">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/localedLocation"
+        android:padding="20dp"
+        />
+    </LinearLayout>
+
+    <LinearLayout style = "@style/LinearParent"
+        android:layout_weight="2">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/localedEnabled"
+            android:padding="20dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout style = "@style/LinearParent"
+        android:layout_weight="2">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/localedStatus"
+            android:padding="20dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout style = "@style/LinearParent"
+        android:layout_weight="2">
+        <LinearLayout style = "@style/LinearOne"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp">
+            <Button style = "@style/ButtonMenu"
+                android:id="@+id/localeditbutton"
+                android:text="@string/start_game"
+                />
+        </LinearLayout>
+        <LinearLayout style = "@style/LinearOne"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp">
+            <Button style = "@style/ButtonMenu"
+                android:id="@+id/localedToSettings"
+                android:text="@string/tosettings"
+            />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout style = "@style/LinearParent"
+        android:layout_weight="2">
+    </LinearLayout>
+
+</LinearLayout>

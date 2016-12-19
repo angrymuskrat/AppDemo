@@ -4,22 +4,36 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="Выберети количество раундов от 1 до 10"
-        />
+    <LinearLayout style = "@style/LinearParent"
+        android:layout_weight="4">
+        <TextView style = "@style/Text"
+            android:text="@string/select_the_number_of_rounds"
+            />
+    </LinearLayout>
 
-    <EditText
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:id="@+id/generaledittext"
-        android:inputType="numberDecimal"
-        />
-    <Button
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:id="@+id/generaleditbutton"
-        android:text="start game"
-        />
+    <LinearLayout style = "@style/LinearParent"
+        android:layout_weight="4">
+        <EditText style = "@style/Text"
+            android:id="@+id/generaledittext"
+            android:layout_width="match_parent"
+            android:inputType="numberDecimal"
+            />
+    </LinearLayout>
+
+    <LinearLayout style = "@style/LinearParent"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:layout_weight="4">
+        <Button style = "@style/ButtonMenu"
+            android:id="@+id/generaleditbutton"
+            android:text="@string/start_game"
+            />
+    </LinearLayout>
+
+    <LinearLayout style = "@style/LinearParent"
+        android:layout_weight="2">
+    </LinearLayout>
+
 </LinearLayout>

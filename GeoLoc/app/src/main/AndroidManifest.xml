@@ -39,6 +39,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".GeneralModeActivity"></activity>
+        <activity android:name=".LocalModeActivity"></activity>
+        <activity android:name=".ChosenModeActivity"></activity>
     </application>
 
 </manifest>

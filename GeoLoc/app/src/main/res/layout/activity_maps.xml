@@ -1,41 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="3dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/LinearOne">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textmapsactivity"
-        android:text="Round"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/changefragment"
-        android:text="Choose location"
-        />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/checkanswer"
-        android:text="Ready to answer"
-        />
-
-    <fragment
-        android:name="com.google.android.gms.maps.MapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/map"
-        />
-
-    <fragment
-        android:name="com.google.android.gms.maps.StreetViewPanoramaFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/streetview"
-        />
+    <LinearLayout style="@style/LinearParent"
+        android:orientation="vertical"
+        android:layout_weight="5"
+        android:paddingTop="12dp">
+        <TextView style = "@style/TextParent"
+            android:id="@+id/textmapsactivity"
+            android:layout_gravity="center"
+            android:text="@string/round"
+            />
     </LinearLayout>
+
+    <LinearLayout style="@style/LinearParent"
+        android:orientation="horizontal"
+        android:layout_weight="5">
+        <LinearLayout style="@style/LinearOne"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp">
+            <Button style="@style/ButtonMap"
+                android:id="@+id/changefragment"
+                android:text="@string/choose_location"
+                />
+        </LinearLayout>
+        <LinearLayout style="@style/LinearOne"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp">
+            <Button style="@style/ButtonMap"
+                android:id="@+id/checkanswer"
+                android:text="@string/ready_to_answer"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout style="@style/LinearOne"
+        android:padding="20dp">
+        <fragment
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/map"
+            />
+
+        <fragment
+            android:name="com.google.android.gms.maps.StreetViewPanoramaFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/streetview"
+            />
+    </LinearLayout>
+
+</LinearLayout>

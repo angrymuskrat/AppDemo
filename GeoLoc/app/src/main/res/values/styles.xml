@@ -8,4 +8,54 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ButtonParent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="ButtonMap" parent = "ButtonParent">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ButtonMenu" parent = "ButtonParent">
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="LinearParent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="LinearTwo" parent = "LinearParent">
+        <item name="android:layout_weight">2</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="LinearOne" parent = "LinearParent">
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="LinearMenu" parent = "LinearOne">
+        <item name="android:paddingBottom">25dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingTop">25dp</item>
+    </style>
+
+    <style name="TextParent">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="Text" parent="TextParent">
+        <item name="android:padding">20dp</item>
+    </style>
+
 </resources>
