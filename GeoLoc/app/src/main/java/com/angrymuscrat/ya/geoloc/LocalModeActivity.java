@@ -147,8 +147,8 @@ public class LocalModeActivity extends Activity {
         @Override
         public LatLng getPosition() {
             Random rand = new Random(System.currentTimeMillis());
-            double latTmp = ((rand.nextDouble() - 0.5) / 2 + lat);
-            double lngTmp = ((rand.nextDouble() - 0.5) + lng);
+            double latTmp = ((rand.nextDouble() - 0.5) + lat);
+            double lngTmp = ((rand.nextDouble() - 0.5) * 2 + lng);
             return new LatLng(latTmp, lngTmp);
         }
         public Integer getRadius(){

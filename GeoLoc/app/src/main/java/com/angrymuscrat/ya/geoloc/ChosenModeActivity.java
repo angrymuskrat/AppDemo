@@ -64,8 +64,8 @@ public class ChosenModeActivity extends Activity {
         @Override
         public LatLng getPosition() {
             Random rand = new Random(System.currentTimeMillis());
-            double latTmp = ((rand.nextDouble() - 0.5) * 2 + ChosenModeActivity.lat);
-            double lngTmp = ((rand.nextDouble() - 0.5) * 4 + ChosenModeActivity.lng);
+            double latTmp = ((rand.nextDouble() - 0.5) * 4 + ChosenModeActivity.lat);
+            double lngTmp = ((rand.nextDouble() - 0.5) * 8 + ChosenModeActivity.lng);
             return new LatLng(latTmp, lngTmp);
         }
         public Integer getRadius(){

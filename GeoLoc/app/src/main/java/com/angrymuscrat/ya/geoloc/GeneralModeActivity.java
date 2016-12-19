@@ -12,6 +12,7 @@ import java.util.Random;
 
 import com.angrymuscrat.ya.geoloc.model.GameGenInterface;
 import com.angrymuscrat.ya.geoloc.model.GameMode;
+import com.angrymuscrat.ya.geoloc.model.RegionForRand;
 import com.google.android.gms.maps.model.LatLng;
 
 public class GeneralModeActivity extends Activity {
@@ -48,8 +49,10 @@ public class GeneralModeActivity extends Activity {
         public LatLng getPosition() {
             //TODO нужен более интелектуальный рандом!
             Random rand = new Random(System.currentTimeMillis());
-            double lat = ((rand.nextDouble() - 0.5) * 100);
-            double lng = ((rand.nextDouble() - 0.5) * 100);
+            int tmp = RegionForRand.regions.length;
+            tmp = (rand.nextInt() % tmp + tmp) % tmp;
+            double lat = ((rand.nextDouble() - 0.5) * 10 + RegionForRand.regions[tmp].latitude);
+            double lng = ((rand.nextDouble() - 0.5) * 20 + RegionForRand.regions[tmp].longitude);
             return new LatLng(lat, lng);
         }
         public Integer getRadius(){

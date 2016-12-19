@@ -13,7 +13,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     private Button generalMode;
     private Button localMode;
     private Button chosenMode;
-    private Button interestingMode;
 
     @Override
     public void onClick(View view) {
@@ -23,7 +22,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             }
-            /////////!
             case R.id.mode2:{
                 Intent intent = new Intent (this, LocalModeActivity.class);
                 startActivity(intent);
@@ -34,13 +32,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             }
-            /*case R.id.mode4:{
-                GameMode.gameMode = 4;
-                Intent intent = new Intent (this, InterestingModeActivity.class);
-                startActivity(intent);
-                break;
-            }*/
-            //////////
             default: break;
         }
 
@@ -57,7 +48,5 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         localMode.setOnClickListener(this);
         chosenMode = (Button) findViewById(R.id.mode3);
         chosenMode.setOnClickListener(this);
-        interestingMode= (Button) findViewById(R.id.mode4);
-        interestingMode.setOnClickListener(this);
     }
 }
