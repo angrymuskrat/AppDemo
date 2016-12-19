@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.location.Location;
 import android.location.LocationManager;
 import android.location.LocationListener;
+import android.location.LocationProvider;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.LoaderManager;
@@ -53,12 +54,24 @@ public class LocalModeActivity extends Activity {
             try {
                 showLocation(locationManager.getLastKnownLocation(provider));
             }catch (SecurityException e){
-                Toast.makeText(LocalModeActivity.this," нет разрешения на обработку данных",Toast.LENGTH_LONG).show();
+                Toast.makeText(LocalModeActivity.this," No permission to process data",Toast.LENGTH_LONG).show();
             }
         }
 
         public void onStatusChanged(String provider, int status, Bundle extras) {
-            statusText.setText("Status: "+String.valueOf(status));
+            switch(status){
+                case LocationProvider.AVAILABLE:
+                    statusText.setText("GPS Status: AVAILABLE");
+                    break;
+                case LocationProvider.OUT_OF_SERVICE:
+                    statusText.setText("GPS Status: OUT OF SERVICE");
+                    break;
+                case LocationProvider.TEMPORARILY_UNAVAILABLE:
+                    statusText.setText("GPS Status: TEMPORARILY UNAVAILABLE");
+                    break;
+                default:
+                    statusText.setText("");
+            }
         }
     };
 
@@ -106,6 +119,11 @@ public class LocalModeActivity extends Activity {
                 onClickLocationSettings(view);
             }
         });
+        try {
+            showLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+        }catch (SecurityException e){
+            Toast.makeText(LocalModeActivity.this," No permission to process data",Toast.LENGTH_LONG).show();
+        }
     }
     protected void onResume(){
         super.onResume();
@@ -128,14 +146,18 @@ public class LocalModeActivity extends Activity {
     private boolean showLocation(Location location){
         if (location==null)
             return false;
-        locationDATA.setText(String.format("Coordinates: lat=%1$.4f, lon = %2$.4f, time= %3$tF %3$tT",
+        locationDATA.setText(String.format("Coordinates: latitude=%1$.4f, longitude = %2$.4f\n " +
+                "last updated at %3$tF %3$tT",
                 location.getLatitude(),location.getLongitude(), new Date(location.getTime())));
         lat=location.getLatitude();
         lng=location.getLongitude();
         return true;
     }
     private void checkEnabled(){
-        enabledText.setText("Enabled: " + locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER));
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+            enabledText.setText("GPS is Enabled");
+        else
+            enabledText.setText("GPS is Disabled");
     }
 
     //вызов меню настроек чтобы поменять location

@@ -11,6 +11,6 @@
     <string name="interesting_game">Interesting game</string>
     <string name="tosettings">toSettings</string>
     <string name="select_latitude">Select latitude</string>
-    <string name="select_longedit">Select longedit</string>
+    <string name="select_longedit">Select longitude</string>
     <string name="switch1">Switch</string>
 </resources>
