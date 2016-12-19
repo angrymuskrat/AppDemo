@@ -1,9 +1,12 @@
 package com.angrymuscrat.ya.geoloc;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +28,11 @@ import com.google.android.gms.maps.StreetViewPanoramaFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
+import com.google.android.gms.maps.model.StreetViewPanoramaLocation;
+import com.google.android.gms.maps.model.StreetViewPanoramaOrientation;
+
+import static java.security.AccessController.getContext;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         OnStreetViewPanoramaReadyCallback, View.OnClickListener{
@@ -38,7 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button swift, nextRound;
     private Round newRound;
     private TextView myText;
-    private int numberOfRound = 1;
+    private int numberOfRound = 0;
 
     @Override
     public void onClick(View view) {
@@ -59,13 +67,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 .color(Color.RED));
                         nextRound.setText("Next round");
                         isRoundNow = false;
+                        numberOfRound++;
                         if (numberOfRound == GameMode.amounthOfRounds) {
-                            nextRound.setText("Menu");
-                            mes += "; all score is " + Integer.toString(GameMode.score)
-                                    + " m" + " from "
-                                    + Integer.toString(Round.MAX_POINT * numberOfRound);
+                            fin(mes);
                         }
-                        myText.setText(mes);
+                        else
+                            myText.setText(mes);
                     }
                     catch (GameException e) {
                         Toast errorMes = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
@@ -77,13 +84,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Intent intent = new Intent(this, MenuActivity.class);
                         startActivity(intent);
                     }
-                    numberOfRound++;
                     mMap.clear();
                     nextRound.setText("Check answer");
-                    myText.setText("Round " + Integer.toString(numberOfRound));
+                    myText.setText("Round " + Integer.toString(numberOfRound + 1));
                     newRound.clearLocation();
-                    setNewLocation();
                     isRoundNow = true;
+                    setNewLocation();
                 }
                 visibleOfStreetView(isRoundNow);
                 break;
@@ -99,7 +105,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         newRound = new Round();
         myText = (TextView) findViewById(R.id.textmapsactivity);
-        myText.setText("Round " + Integer.toString(numberOfRound));
+        myText.setText("Round " + Integer.toString(numberOfRound + 1));
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         streetFragment = (StreetViewPanoramaFragment) getFragmentManager()
                 .findFragmentById(R.id.streetview);
@@ -132,10 +138,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onStreetViewPanoramaReady(StreetViewPanorama streetViewPanorama) {
         streetView = streetViewPanorama;
+        streetView.setStreetNamesEnabled(false);
         setNewLocation();
     }
 
     private void setNewLocation() {
+        Log.d(TAG, "new location");
+        if (!isInternetConnection()) {
+            Log.d(TAG, "isn't Internet connection");
+            fin("You haven't Internet connection");
+        }
         int r = GameMode.getRadius();
         LatLng point = GameMode.getPosition();
         Log.d(TAG, Double.toString(point.latitude) + " " + Double.toString(point.longitude));
@@ -149,5 +161,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         tmp = isTrue ? View.GONE :  View.VISIBLE;
         mapFragment.getView().setVisibility(tmp);
         isMapVisible = !isTrue;
+    }
+
+    private final void fin(String mes) {
+        Log.d(TAG, "fin");
+        nextRound.setText("Menu");
+        myText.setText(mes + "; all score is " + Integer.toString(GameMode.score)
+                + " from "
+                + Integer.toString(Round.MAX_POINT * numberOfRound));
+        numberOfRound = GameMode.amounthOfRounds;
+        isRoundNow = false;
+    }
+
+    private boolean isInternetConnection () {
+        ConnectivityManager netState = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = netState.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 }
