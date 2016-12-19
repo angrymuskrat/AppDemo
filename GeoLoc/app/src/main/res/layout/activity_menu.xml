@@ -29,11 +29,5 @@
         android:id="@+id/mode3"
         android:text="Chosen game"
         />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/mode4"
-        android:text="Interesting game"
-        />
 
 </LinearLayout>
