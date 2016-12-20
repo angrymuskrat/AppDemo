@@ -64,7 +64,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             throw new PlaceException();
                         newRound.setUserLocation(streetView.getLocation().position);
                         int res = newRound.checkUserAnswer();
-                        String mes = "your score is " + Integer.toString(res) + " m";
+                        String mes = "your score is " + Integer.toString(res);
                         mMap.addPolyline(new PolylineOptions()
                                 .add(newRound.getUserAns(), newRound.getUserLocation())
                                 .color(Color.RED));

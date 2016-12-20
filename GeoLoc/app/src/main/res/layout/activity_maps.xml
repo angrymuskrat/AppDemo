@@ -9,7 +9,6 @@
             android:id="@+id/textmapsactivity"
             android:layout_gravity="center"
             android:textStyle="bold"
-            android:textSize="14sp"
             android:text="@string/round"
             />
     </LinearLayout>
@@ -22,7 +21,7 @@
             android:paddingRight="10dp">
             <Button style="@style/ButtonMap"
                 android:id="@+id/changefragment"
-                android:text="@string/switch1"
+                android:text="@string/choose_location"
                 />
         </LinearLayout>
         <LinearLayout style="@style/LinearOne"
