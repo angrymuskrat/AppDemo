@@ -32,8 +32,9 @@ public class LocalModeActivity extends Activity {
     EditText myEditText;
     Button myButton;
 
-    double lat;
-    double lng;
+    static double lat;
+    static double lng;
+    static boolean flag;
     TextView locationDATA;
     TextView enabledText;
     TextView statusText;
@@ -89,7 +90,7 @@ public class LocalModeActivity extends Activity {
             @Override
             public void onClick(View view) {
                 try {
-                    if(!showLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER))){
+                    if(!flag&&!showLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER))){
                         Toast.makeText(LocalModeActivity.this, "No data on the location",Toast.LENGTH_LONG);
                         return;
                     }
@@ -129,7 +130,7 @@ public class LocalModeActivity extends Activity {
         super.onResume();
         try {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                    0, 10, locationListener);
+                    0, 0, locationListener);
         }catch (SecurityException e){
             Toast.makeText(LocalModeActivity.this,"No authorization for the processing of data",Toast.LENGTH_LONG).show();
         }
@@ -149,6 +150,7 @@ public class LocalModeActivity extends Activity {
         locationDATA.setText(String.format("Coordinates: latitude=%1$.4f, longitude = %2$.4f\n " +
                 "last updated at %3$tF %3$tT",
                 location.getLatitude(),location.getLongitude(), new Date(location.getTime())));
+        flag = true;
         lat=location.getLatitude();
         lng=location.getLongitude();
         return true;
