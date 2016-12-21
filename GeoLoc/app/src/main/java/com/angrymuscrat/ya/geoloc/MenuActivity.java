@@ -16,6 +16,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        GameMode.score = 0;
         switch (view.getId()) {
             case R.id.mode1 : {
                 Intent intent = new Intent (this, GeneralModeActivity.class);
